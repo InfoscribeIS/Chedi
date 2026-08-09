@@ -39,21 +39,54 @@ d'APIs, modèle de données, risques et roadmap.
 
 ## Démarrage rapide
 
-Prérequis : Python ≥ 3.11, Node ≥ 20.
+> ⚠️ **L'app tourne sur TON ordinateur** : `localhost` ne répond (ERR_CONNECTION_REFUSED)
+> que si les deux serveurs ci-dessous ne sont pas lancés. Il faut d'abord cloner le dépôt,
+> puis les démarrer — et ouvrir **http://localhost:3000** (pas 8000).
+
+Prérequis : [Python ≥ 3.11](https://www.python.org/downloads/) (sur Windows, coche
+« Add python.exe to PATH »), [Node ≥ 20](https://nodejs.org/fr) et [Git](https://git-scm.com/downloads).
 
 ```bash
-# 1. Backend (port 8000)
-cd apps/api
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/uvicorn app.main:app --reload
-# → http://localhost:8000/docs (Swagger)
-
-# 2. Frontend (port 3000) — autre terminal
-cd apps/web
-npm install
-npm run dev
-# → http://localhost:3000
+git clone https://github.com/InfoscribeIS/Chedi.git
+cd Chedi
+git checkout claude/invest-copilot-app-xkgz5w
 ```
+
+**Démarrage en une commande** :
+
+```bash
+./dev.sh        # macOS / Linux
+.\dev.ps1       # Windows (PowerShell)
+```
+
+Première exécution : quelques minutes (installation des dépendances). Ensuite, ouvre
+**http://localhost:3000**. L'API est sur http://localhost:8000/docs (Swagger).
+
+<details>
+<summary>Démarrage manuel (deux terminaux) ou dépannage</summary>
+
+```bash
+# Terminal 1 — Backend (port 8000)
+cd apps/api
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt   # 1re fois
+.venv/bin/uvicorn app.main:app --reload
+# Windows :  py -3 -m venv .venv
+#            .venv\Scripts\pip install -r requirements.txt
+#            .venv\Scripts\python -m uvicorn app.main:app --reload
+
+# Terminal 2 — Frontend (port 3000)
+cd apps/web
+npm install        # 1re fois
+npm run dev
+```
+
+- `ERR_CONNECTION_REFUSED` sur localhost:3000 → le terminal 2 n'affiche pas « Ready » :
+  relance `npm run dev` et lis l'erreur.
+- La page charge mais affiche « API injoignable » → le terminal 1 n'affiche pas
+  « Uvicorn running » : relance le backend.
+- `python3` introuvable sur Windows → utilise `py -3`.
+- PowerShell bloque `dev.ps1` → `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` puis réessaie.
+</details>
 
 Sans configuration, l'app essaie les sources réelles (CoinGecko, Yahoo, alternative.me) et
 bascule automatiquement en données démo si elles sont injoignables.
