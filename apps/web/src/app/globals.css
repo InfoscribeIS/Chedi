@@ -1,0 +1,98 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---- Design tokens — palette dérivée du logo Invest Copilote ----
+   Chouette : dégradés émeraude → turquoise → bleu sur fond bleu nuit. */
+:root {
+  --bg: #f4f7fb;
+  --panel: #ffffff;
+  --panel2: #eaf0f7;
+  --line: #d9e2ee;
+  --ink: #0b1626;
+  --ink2: #44566e;
+  --ink3: #5d7290;
+  --brand: #059669;   /* émeraude */
+  --brand2: #2563eb;  /* bleu */
+  --brand3: #0d9488;  /* turquoise */
+  --up: #047857;
+  --down: #b91c1c;
+  --warn: #b45309;
+}
+
+.dark {
+  --bg: #060b18;
+  --panel: #0c1428;
+  --panel2: #121d38;
+  --line: #1e2b4a;
+  --ink: #e8eef8;
+  --ink2: #a3b3cc;
+  --ink3: #6f81a0;
+  --brand: #34d399;
+  --brand2: #60a5fa;
+  --brand3: #2dd4bf;
+  --up: #34d399;
+  --down: #f87171;
+  --warn: #fbbf24;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-panel: var(--panel);
+  --color-panel2: var(--panel2);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-ink2: var(--ink2);
+  --color-ink3: var(--ink3);
+  --color-brand: var(--brand);
+  --color-brand2: var(--brand2);
+  --color-brand3: var(--brand3);
+  --color-up: var(--up);
+  --color-down: var(--down);
+  --color-warn: var(--warn);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-feature-settings: "tnum";
+}
+
+/* Dégradé de marque (repris du logo) */
+.brand-gradient {
+  background-image: linear-gradient(120deg, #4ade80, #2dd4bf 45%, #3b82f6);
+}
+.brand-gradient-text {
+  background-image: linear-gradient(120deg, #10b981, #0d9488 45%, #2563eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .brand-gradient-text {
+  background-image: linear-gradient(120deg, #4ade80, #2dd4bf 45%, #60a5fa);
+}
+
+/* Terme pédagogique cliquable */
+.term {
+  text-decoration: underline dotted;
+  text-decoration-color: var(--brand3);
+  text-underline-offset: 3px;
+  cursor: help;
+}
+.term:hover {
+  color: var(--brand3);
+}
+
+::selection {
+  background: color-mix(in oklab, var(--brand3) 30%, transparent);
+}

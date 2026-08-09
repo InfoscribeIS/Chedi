@@ -1,0 +1,83 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
+export class ApiError extends Error {
+  status: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
+}
+
+export async function api<T>(path: string, init?: RequestInit): Promise<T> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      ...init,
+      headers: { "Content-Type": "application/json", ...init?.headers },
+    });
+  } catch {
+    throw new ApiError(
+      0,
+      "API injoignable. Lance le backend : cd apps/api && uvicorn app.main:app",
+    );
+  }
+  if (!res.ok) {
+    let detail = res.statusText;
+    try {
+      const body = await res.json();
+      if (typeof body.detail === "string") detail = body.detail;
+    } catch {
+      /* corps non-JSON */
+    }
+    throw new ApiError(res.status, detail);
+  }
+  if (res.status === 204) return undefined as T;
+  return res.json();
+}
+
+export function useApi<T>(
+  path: string | null,
+  opts?: { refreshMs?: number },
+) {
+  const [data, setData] = useState<T | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(path !== null);
+  const alive = useRef(true);
+
+  const load = useCallback(async () => {
+    if (!path) return;
+    try {
+      const result = await api<T>(path);
+      if (alive.current) {
+        setData(result);
+        setError(null);
+      }
+    } catch (e) {
+      if (alive.current) setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      if (alive.current) setLoading(false);
+    }
+  }, [path]);
+
+  useEffect(() => {
+    alive.current = true;
+    if (path) {
+      setLoading(true);
+      load();
+    }
+    const ms = opts?.refreshMs;
+    const timer = ms && path ? setInterval(load, ms) : undefined;
+    return () => {
+      alive.current = false;
+      if (timer) clearInterval(timer);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [path, load]);
+
+  return { data, error, loading, reload: load };
+}

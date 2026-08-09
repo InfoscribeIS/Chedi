@@ -1,0 +1,41 @@
+[
+  {"symbol": "^GSPC", "name": "S&P 500", "asset_class": "indice", "currency": "USD", "provider": "yahoo", "provider_ref": "^GSPC", "unit": "pts", "demo_base": 6500},
+  {"symbol": "^IXIC", "name": "Nasdaq Composite", "asset_class": "indice", "currency": "USD", "provider": "yahoo", "provider_ref": "^IXIC", "unit": "pts", "demo_base": 21500},
+  {"symbol": "^DJI", "name": "Dow Jones", "asset_class": "indice", "currency": "USD", "provider": "yahoo", "provider_ref": "^DJI", "unit": "pts", "demo_base": 44500},
+  {"symbol": "^STOXX50E", "name": "Euro Stoxx 50", "asset_class": "indice", "currency": "EUR", "provider": "yahoo", "provider_ref": "^STOXX50E", "unit": "pts", "demo_base": 5400},
+  {"symbol": "^FCHI", "name": "CAC 40", "asset_class": "indice", "currency": "EUR", "provider": "yahoo", "provider_ref": "^FCHI", "unit": "pts", "demo_base": 8000},
+  {"symbol": "^GDAXI", "name": "DAX", "asset_class": "indice", "currency": "EUR", "provider": "yahoo", "provider_ref": "^GDAXI", "unit": "pts", "demo_base": 24000},
+  {"symbol": "^N225", "name": "Nikkei 225", "asset_class": "indice", "currency": "JPY", "provider": "yahoo", "provider_ref": "^N225", "unit": "pts", "demo_base": 41000},
+  {"symbol": "^HSI", "name": "Hang Seng", "asset_class": "indice", "currency": "HKD", "provider": "yahoo", "provider_ref": "^HSI", "unit": "pts", "demo_base": 24500},
+  {"symbol": "^VIX", "name": "VIX (volatilité)", "asset_class": "volatilite", "currency": "USD", "provider": "yahoo", "provider_ref": "^VIX", "unit": "pts", "demo_base": 16},
+  {"symbol": "^TNX", "name": "Taux US 10 ans", "asset_class": "taux", "currency": "USD", "provider": "yahoo", "provider_ref": "^TNX", "unit": "%", "demo_base": 4.3},
+
+  {"symbol": "BTC", "name": "Bitcoin", "asset_class": "crypto", "currency": "USD", "provider": "coingecko", "provider_ref": "bitcoin", "demo_base": 95000},
+  {"symbol": "ETH", "name": "Ethereum", "asset_class": "crypto", "currency": "USD", "provider": "coingecko", "provider_ref": "ethereum", "demo_base": 3300},
+  {"symbol": "SOL", "name": "Solana", "asset_class": "crypto", "currency": "USD", "provider": "coingecko", "provider_ref": "solana", "demo_base": 150},
+  {"symbol": "BNB", "name": "BNB", "asset_class": "crypto", "currency": "USD", "provider": "coingecko", "provider_ref": "binancecoin", "demo_base": 620},
+  {"symbol": "XRP", "name": "XRP", "asset_class": "crypto", "currency": "USD", "provider": "coingecko", "provider_ref": "ripple", "demo_base": 2.2},
+
+  {"symbol": "GC=F", "name": "Or (once)", "asset_class": "metal", "currency": "USD", "provider": "yahoo", "provider_ref": "GC=F", "demo_base": 2900},
+  {"symbol": "SI=F", "name": "Argent (once)", "asset_class": "metal", "currency": "USD", "provider": "yahoo", "provider_ref": "SI=F", "demo_base": 33},
+  {"symbol": "CL=F", "name": "Pétrole WTI", "asset_class": "energie", "currency": "USD", "provider": "yahoo", "provider_ref": "CL=F", "demo_base": 72},
+  {"symbol": "BZ=F", "name": "Pétrole Brent", "asset_class": "energie", "currency": "USD", "provider": "yahoo", "provider_ref": "BZ=F", "demo_base": 76},
+
+  {"symbol": "EURUSD=X", "name": "EUR/USD", "asset_class": "forex", "currency": "USD", "provider": "yahoo", "provider_ref": "EURUSD=X", "demo_base": 1.09},
+
+  {"symbol": "SPY", "name": "SPDR S&P 500 ETF", "asset_class": "etf", "currency": "USD", "provider": "yahoo", "provider_ref": "SPY", "demo_base": 650},
+  {"symbol": "QQQ", "name": "Invesco Nasdaq 100 ETF", "asset_class": "etf", "currency": "USD", "provider": "yahoo", "provider_ref": "QQQ", "demo_base": 560},
+  {"symbol": "VWCE.DE", "name": "Vanguard FTSE All-World (acc)", "asset_class": "etf", "currency": "EUR", "provider": "yahoo", "provider_ref": "VWCE.DE", "demo_base": 140},
+  {"symbol": "IWDA.AS", "name": "iShares Core MSCI World", "asset_class": "etf", "currency": "EUR", "provider": "yahoo", "provider_ref": "IWDA.AS", "demo_base": 105},
+
+  {"symbol": "AAPL", "name": "Apple", "asset_class": "action", "currency": "USD", "provider": "yahoo", "provider_ref": "AAPL", "demo_base": 240},
+  {"symbol": "MSFT", "name": "Microsoft", "asset_class": "action", "currency": "USD", "provider": "yahoo", "provider_ref": "MSFT", "demo_base": 470},
+  {"symbol": "NVDA", "name": "Nvidia", "asset_class": "action", "currency": "USD", "provider": "yahoo", "provider_ref": "NVDA", "demo_base": 165},
+  {"symbol": "AMZN", "name": "Amazon", "asset_class": "action", "currency": "USD", "provider": "yahoo", "provider_ref": "AMZN", "demo_base": 220},
+  {"symbol": "GOOGL", "name": "Alphabet", "asset_class": "action", "currency": "USD", "provider": "yahoo", "provider_ref": "GOOGL", "demo_base": 195},
+  {"symbol": "TSLA", "name": "Tesla", "asset_class": "action", "currency": "USD", "provider": "yahoo", "provider_ref": "TSLA", "demo_base": 300},
+  {"symbol": "MC.PA", "name": "LVMH", "asset_class": "action", "currency": "EUR", "provider": "yahoo", "provider_ref": "MC.PA", "demo_base": 620},
+  {"symbol": "ASML.AS", "name": "ASML", "asset_class": "action", "currency": "EUR", "provider": "yahoo", "provider_ref": "ASML.AS", "demo_base": 780},
+  {"symbol": "TTE.PA", "name": "TotalEnergies", "asset_class": "action", "currency": "EUR", "provider": "yahoo", "provider_ref": "TTE.PA", "demo_base": 60},
+  {"symbol": "AIR.PA", "name": "Airbus", "asset_class": "action", "currency": "EUR", "provider": "yahoo", "provider_ref": "AIR.PA", "demo_base": 170}
+]
