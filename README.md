@@ -52,12 +52,13 @@ cd Chedi
 git checkout claude/invest-copilot-app-xkgz5w
 ```
 
-**Démarrage en une commande** :
+**Démarrage** :
 
-```bash
-./dev.sh        # macOS / Linux
-.\dev.ps1       # Windows (PowerShell)
-```
+- **Windows** : double-clique sur **`Lancer Invest Copilote.bat`** dans le dossier `Chedi`
+  (démarre les serveurs *et* ouvre le navigateur tout seul). Astuce : clic droit sur le
+  fichier → *Envoyer vers* → *Bureau* pour avoir une icône de lancement.
+  Équivalent terminal : `.\dev.ps1`
+- **macOS / Linux** : `./dev.sh`
 
 Première exécution : quelques minutes (installation des dépendances). Ensuite, ouvre
 **http://localhost:3000**. L'API est sur http://localhost:8000/docs (Swagger).
