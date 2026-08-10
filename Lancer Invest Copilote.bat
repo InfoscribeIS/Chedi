@@ -18,12 +18,13 @@ echo.
 start "Invest Copilote - API (ne pas fermer)" powershell -NoExit -ExecutionPolicy Bypass -File "%~dp0scripts\start-api.ps1"
 start "Invest Copilote - Interface (ne pas fermer)" powershell -NoExit -ExecutionPolicy Bypass -File "%~dp0scripts\start-web.ps1"
 
-rem Attend que l'interface reponde sur le port 3000 (max ~120 s), puis ouvre le navigateur
+rem Attend que le moteur (8000) ET l'interface (3000) repondent (max ~180 s),
+rem puis ouvre le navigateur. Le premier demarrage peut etre long (antivirus).
 set /a tries=0
 :waitloop
 set /a tries+=1
-if %tries% gtr 120 goto openbrowser
-powershell -NoProfile -Command "try{$c=New-Object Net.Sockets.TcpClient;$c.Connect('127.0.0.1',3000);$c.Close();exit 0}catch{exit 1}" >nul 2>&1
+if %tries% gtr 180 goto openbrowser
+powershell -NoProfile -Command "try{$a=New-Object Net.Sockets.TcpClient;$a.Connect('127.0.0.1',8000);$a.Close();$b=New-Object Net.Sockets.TcpClient;$b.Connect('127.0.0.1',3000);$b.Close();exit 0}catch{exit 1}" >nul 2>&1
 if errorlevel 1 (
   timeout /t 1 /nobreak >nul
   goto waitloop
