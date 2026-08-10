@@ -14,7 +14,8 @@ if [ ! -d apps/web/node_modules ]; then
 fi
 
 trap 'kill 0' EXIT INT TERM
-(cd apps/api && .venv/bin/python -m uvicorn app.main:app --reload) &
+# --reload-dir app : sinon chaque écriture SQLite déclenche un redémarrage du serveur
+(cd apps/api && .venv/bin/python -m uvicorn app.main:app --reload --reload-dir app) &
 (cd apps/web && npm run dev) &
 echo ""
 echo "✅ Invest Copilote démarre : ouvre http://localhost:3000  (API : http://localhost:8000/docs)"

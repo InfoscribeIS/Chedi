@@ -13,6 +13,8 @@ export class ApiError extends Error {
   }
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
@@ -21,10 +23,19 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
       headers: { "Content-Type": "application/json", ...init?.headers },
     });
   } catch {
-    throw new ApiError(
-      0,
-      "API injoignable. Lance le backend : cd apps/api && uvicorn app.main:app",
-    );
+    // Une nouvelle tentative absorbe les micro-coupures (redémarrage du serveur…)
+    await sleep(1200);
+    try {
+      res = await fetch(`${API_URL}${path}`, {
+        ...init,
+        headers: { "Content-Type": "application/json", ...init?.headers },
+      });
+    } catch {
+      throw new ApiError(
+        0,
+        "Moteur de l'app injoignable. Vérifie que la fenêtre « Invest Copilote - API » est ouverte, ou relance « Lancer Invest Copilote.bat ».",
+      );
+    }
   }
   if (!res.ok) {
     let detail = res.statusText;

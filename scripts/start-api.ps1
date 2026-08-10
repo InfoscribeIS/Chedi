@@ -9,4 +9,6 @@ if (!(Test-Path .venv)) {
 }
 
 Write-Host "Demarrage de l API sur http://localhost:8000 (docs: /docs)"
-.venv\Scripts\python -m uvicorn app.main:app --reload
+# --reload-dir app : ne surveiller que le code, sinon chaque ecriture SQLite
+# (investcopilot.db) declenche un redemarrage -> "API injoignable" d une seconde
+.venv\Scripts\python -m uvicorn app.main:app --reload --reload-dir app

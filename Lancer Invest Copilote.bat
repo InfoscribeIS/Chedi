@@ -6,6 +6,9 @@ rem  (fichier ASCII uniquement : pas d'accents ici)
 rem ============================================================
 cd /d "%~dp0"
 
+rem Recupere automatiquement les dernieres corrections (silencieux, ignore si hors ligne)
+git pull --ff-only >nul 2>&1
+
 echo.
 echo   Invest Copilote - demarrage...
 echo   Deux fenetres serveur vont s'ouvrir : NE PAS LES FERMER
