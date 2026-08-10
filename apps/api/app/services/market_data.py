@@ -15,6 +15,7 @@ from ..providers.base import Asset, HistCandle, ProviderError, Quote
 from ..providers.coingecko import CoinGeckoProvider
 from ..providers.demo import DemoProvider
 from ..providers.feargreed import FearGreed, demo_fear_greed, fetch_fear_greed
+from ..providers.frankfurter import FrankfurterProvider
 from ..providers.yahoo import YahooProvider
 
 UNIVERSE_PATH = Path(__file__).resolve().parent.parent / "data" / "universe.json"
@@ -31,6 +32,7 @@ class MarketDataService:
         self.mode = mode or settings.data_mode
         self.universe = load_universe()
         self._live = {"coingecko": CoinGeckoProvider(), "yahoo": YahooProvider()}
+        self._forex_backup = FrankfurterProvider()  # repli réel (BCE) pour l'EUR/USD
         self._demo = DemoProvider()
         self._quote_cache: TTLCache = TTLCache(maxsize=512, ttl=settings.quote_cache_ttl)
         self._history_cache: TTLCache = TTLCache(maxsize=256, ttl=settings.history_cache_ttl)
@@ -93,7 +95,17 @@ class MarketDataService:
     def _fallback_quotes(self, assets: list[Asset]) -> dict[str, Quote]:
         out: dict[str, Quote] = {}
         demo_needed: list[Asset] = []
+        # Le forex a un repli RÉEL (fixing BCE) avant toute donnée fictive :
+        # ce taux sert aussi aux conversions EUR du portefeuille.
+        forex = [a for a in assets if a.asset_class == "forex"]
+        if forex:
+            try:
+                out.update(self._forex_backup.get_quotes(forex))
+            except ProviderError:
+                pass  # continue vers dernière-valeur-connue puis démo
         for a in assets:
+            if a.symbol in out:
+                continue
             good = self._last_good.get(a.symbol)
             if good is not None:
                 stale = Quote(**{**good.__dict__})
@@ -130,7 +142,15 @@ class MarketDataService:
             except ProviderError:
                 if self.mode == "live":
                     raise
-                result = (self._demo.get_history(asset, days), "démo (source réelle indisponible)")
+                result = None
+                if asset.asset_class == "forex":
+                    try:
+                        result = (self._forex_backup.get_history(asset, days),
+                                  "Frankfurter (taux de référence BCE)")
+                    except ProviderError:
+                        result = None
+                if result is None:
+                    result = (self._demo.get_history(asset, days), "démo (source réelle indisponible)")
 
         with self._lock:
             self._history_cache[key] = result
