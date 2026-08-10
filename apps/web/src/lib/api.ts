@@ -2,8 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+// Vide par défaut : les appels partent vers la même origine que la page et
+// Next les relaie au backend (voir next.config.ts). NEXT_PUBLIC_API_URL ne
+// sert qu'en production, quand l'API vit sur un autre domaine.
+export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 export class ApiError extends Error {
   status: number;
