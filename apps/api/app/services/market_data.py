@@ -63,8 +63,11 @@ class MarketDataService:
             fetched = self._fetch_quotes(missing)
             with self._lock:
                 for sym, q in fetched.items():
+                    # Les valeurs de repli sont AUSSI mises en cache : pendant un
+                    # blocage du fournisseur (429), on arrête de le marteler à
+                    # chaque page — il se débloque d'autant plus vite.
+                    self._quote_cache[sym] = q
                     if not q.stale and not q.source.startswith("démo"):
-                        self._quote_cache[sym] = q
                         self._last_good[sym] = q
             out.update(fetched)
         return out

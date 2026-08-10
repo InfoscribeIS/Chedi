@@ -30,7 +30,10 @@ class Settings(BaseSettings):
     anthropic_copilot_model: str = "claude-sonnet-5"
     copilot_max_tokens: int = 900
 
-    quote_cache_ttl: int = 120      # seconds
+    # TTL généreux : les tiers gratuits (Yahoo surtout) bannissent vite les
+    # rafales de requêtes ; 5 min de cache suffisent pour de l'investissement
+    # progressif et divisent la pression par ~2,5 vs 120 s.
+    quote_cache_ttl: int = 300      # seconds
     history_cache_ttl: int = 3600   # seconds
 
     # Tiny in-process rate limit for the copilot endpoint (requests per minute).

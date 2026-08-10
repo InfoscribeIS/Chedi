@@ -43,9 +43,14 @@ class YahooProvider:
 
     def get_history(self, asset: Asset, days: int) -> list[HistCandle]:
         rng = "1y" if days > 90 else ("3mo" if days > 30 else "1mo")
-        with httpx.Client(headers=HEADERS, timeout=TIMEOUT) as client:
-            result = self._fetch_chart(client, asset.provider_ref, rng)
-        return self._candles(result)
+        try:
+            with httpx.Client(headers=HEADERS, timeout=TIMEOUT) as client:
+                result = self._fetch_chart(client, asset.provider_ref, rng)
+            return self._candles(result)
+        except ProviderError:
+            raise
+        except Exception as exc:  # httpx 429/5xx/réseau → format rattrapable par le fallback
+            raise ProviderError(f"Yahoo history failed for {asset.symbol}: {exc}") from exc
 
     # -- internals ---------------------------------------------------------
 
